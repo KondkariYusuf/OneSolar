@@ -1,70 +1,96 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Volume2, VolumeX } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import heroImg from '../assets/hero copy.png';
 
-interface HeroProps {
-  isLoaded?: boolean;
-  isPlaying?: boolean;
-  onToggleSound?: () => void;
+// Typewriter hook for tagline (loops infinitely)
+function useTypewriter(text: string, speed = 80, delayBetweenLoops = 2500) {
+  const [displayed, setDisplayed] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+
+    const handleType = () => {
+      const isComplete = !isDeleting && displayed === text;
+      const isCleared = isDeleting && displayed === '';
+
+      if (isComplete) {
+        timer = setTimeout(() => setIsDeleting(true), delayBetweenLoops);
+      } else if (isCleared) {
+        setIsDeleting(false);
+      } else {
+        const nextText = isDeleting
+          ? text.slice(0, displayed.length - 1)
+          : text.slice(0, displayed.length + 1);
+
+        setDisplayed(nextText);
+        timer = setTimeout(handleType, isDeleting ? speed / 2 : speed);
+      }
+    };
+
+    timer = setTimeout(handleType, speed);
+
+    return () => clearTimeout(timer);
+  }, [displayed, isDeleting, text, speed, delayBetweenLoops]);
+
+  return { displayed, done: !isDeleting && displayed === text };
 }
 
-export const Hero: React.FC<HeroProps> = ({
-  isLoaded = true,
-  isPlaying = true,
-  onToggleSound,
-}) => {
+export const Hero: React.FC = () => {
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 450], [0, -120]);
+  const opacity = useTransform(scrollY, [0, 350], [1, 0]);
+
+  // Typewriter effect
+  const { displayed: taglineText, done: isTypewriterDone } = useTypewriter("One prompt, one design.");
+
+  // Scroll transformations for clouds parallax rising to cover the Earth
+  // Mapped over a larger scroll distance (1000px) so they cover the Earth slowly and gradually
+  const cloudY = useTransform(scrollY, [0, 1000], [450, 20]);
+  const cloudOpacity = useTransform(scrollY, [0, 200, 800], [0, 0.6, 1]);
+
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-[#0a0608] flex flex-col justify-center items-center select-none">
-      {/* Background Video */}
-      <video
-        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260613_180732_a54afbf6-b30d-470e-861f-669871f09f67.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
+    <section className="relative w-full h-screen overflow-hidden bg-white flex flex-col justify-start items-center select-none">
+      {/* Background Image (Full screen & full width with smooth bottom transparency fade) */}
+      <img
+        src={heroImg}
+        alt="Cosmic Wellness Journey Background"
         className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+        style={{
+          maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 68%, rgba(0,0,0,0) 95%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 68%, rgba(0,0,0,0) 95%)',
+        }}
       />
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/20 z-10 pointer-events-none" />
-
-      {/* Center Content with Entrance Animation on Loader Finish */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none">
-        <motion.div
+      {/* Overlay tagline */}
+      <div className="w-full max-w-7xl z-10 flex flex-col items-center text-center mt-36 px-4">
+        <motion.h1
+          style={{ y, opacity }}
           initial={{ opacity: 0, y: 30 }}
-          animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="-mt-[120px] pointer-events-auto flex flex-col items-center px-4 max-w-5xl"
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="font-sans text-neutral-900 text-[26px] xs:text-[34px] sm:text-5xl md:text-7xl lg:text-8xl xl:text-[110px] font-normal leading-[1.02] tracking-tight text-center select-none whitespace-nowrap"
         >
-          <h1 className="font-instrument text-white text-[36px] md:text-7xl lg:text-[110px] leading-[0.9] tracking-tight text-center text-glow select-none">
-            Gentle touch. Radiant presence.
-          </h1>
-          <p className="text-white/70 text-sm md:text-base text-center mt-5 md:mt-7 max-w-xl font-inter leading-relaxed">
-            Expert beauty and holistic wellness, delivered with warmth and intention.
-          </p>
-          <button className="mt-6 md:mt-9 bg-white text-black px-8 py-3.5 rounded-full font-medium text-sm tracking-wide hover:bg-white/90 transition-all duration-300 button-glow font-inter cursor-pointer">
-            Begin your renewal
-          </button>
-        </motion.div>
+          {taglineText}
+          {!isTypewriterDone && (
+            <span className="inline-block w-[4px] h-[0.9em] bg-neutral-900 align-middle ml-[4px] animate-blink" />
+          )}
+        </motion.h1>
       </div>
 
-      {/* Sound Indicator & Toggle Button (Visible on BOTH Mobile & Desktop) */}
-      <div className="flex items-center gap-2.5 sm:gap-3 absolute bottom-6 sm:bottom-8 left-6 sm:left-8 z-20">
-        <button
-          onClick={onToggleSound}
-          className="w-10 h-10 rounded-full border border-white/30 bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:border-white/60 transition-all duration-300 cursor-pointer shadow-lg active:scale-95 pointer-events-auto"
-          aria-label={isPlaying ? 'Mute background music' : 'Play background music'}
+      {/* Volumetric Puffy Cloud Deck (Fades in and rises up on scroll to cover Earth seamlessly) */}
+      <div className="absolute inset-x-0 bottom-0 h-[450px] z-20 pointer-events-none overflow-hidden">
+        <motion.div
+          style={{ y: cloudY, opacity: cloudOpacity }}
+          className="absolute inset-0 flex items-end justify-center w-full"
         >
-          {isPlaying ? (
-            <Volume2 className="w-4 h-4 text-white animate-pulse" />
-          ) : (
-            <VolumeX className="w-4 h-4 text-white/60" />
-          )}
-        </button>
-        <div className="flex flex-col text-white/80 text-xs font-inter leading-tight select-none">
-          <span className="font-medium text-white">{isPlaying ? 'Sound On' : 'Sound Off'}</span>
-          <span className="text-[10px] sm:text-xs opacity-75">Rain on my window</span>
-        </div>
+          {/* Volumetric cloud puffs of different sizes with custom filters and soft overlapping */}
+          <div className="absolute bottom-[-10px] left-[-15%] w-[45%] aspect-[16/10] bg-white rounded-full filter blur-[40px] opacity-95" />
+          <div className="absolute bottom-[-40px] left-[15%] w-[40%] aspect-[16/10] bg-white rounded-full filter blur-[50px] opacity-98" />
+          <div className="absolute bottom-[-30px] left-[35%] w-[48%] aspect-[16/10] bg-white rounded-full filter blur-[55px] opacity-98" />
+          <div className="absolute bottom-[-40px] right-[15%] w-[40%] aspect-[16/10] bg-white rounded-full filter blur-[50px] opacity-98" />
+          <div className="absolute bottom-[-10px] right-[-15%] w-[45%] aspect-[16/10] bg-white rounded-full filter blur-[40px] opacity-95" />
+        </motion.div>
       </div>
     </section>
   );

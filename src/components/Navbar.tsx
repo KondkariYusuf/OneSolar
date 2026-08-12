@@ -8,25 +8,8 @@ const NAV_LINKS = [
 ];
 
 export const Navbar = () => {
-  const [isScrolledToLight, setIsScrolledToLight] = useState(false);
+  const isScrolledToLight = true;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // Trigger theme switch when user scrolls past 70% of viewport height into light section
-      const threshold = window.innerHeight * 0.7;
-      if (window.scrollY > threshold) {
-        setIsScrolledToLight(true);
-      } else {
-        setIsScrolledToLight(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check on mount
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
     <>
