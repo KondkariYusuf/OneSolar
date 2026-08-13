@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useScroll, useTransform } from 'framer-motion';
 import { Mac } from './ui/mac';
 import screenImg1 from '../assets/image1.png';
 import screenImg2 from '../assets/image22.png';

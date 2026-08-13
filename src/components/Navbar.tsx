@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const NAV_LINKS = [
   { name: 'About', href: '#spade-hero' },
