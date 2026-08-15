@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ContactSection } from './components/ContactSection';
 import { EarlyAccess } from './components/EarlyAccess';
 import { MacDemoSection } from './components/MacDemoSection';
 
-export function App() {
+function AppContent() {
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -28,8 +30,11 @@ export function App() {
     };
   }, []);
 
+  const { isDark } = useTheme();
+
   return (
-    <div className="bg-white min-h-screen text-neutral-900 font-inter">
+    <div className={`${isDark ? 'bg-black text-white' : 'bg-white text-neutral-900'} min-h-screen font-inter transition-colors duration-500`}>
+      <Navbar />
       <Hero />
       <ContactSection />
       <MacDemoSection />
@@ -38,4 +43,13 @@ export function App() {
   );
 }
 
+export function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  );
+}
+
 export default App;
+

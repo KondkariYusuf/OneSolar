@@ -1,8 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
 import contactImg from '../assets/image2.png';
 
 export const ContactSection = () => {
+  const { isDark } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Track the window width dynamically to ensure offscreen elements translate relative to actual viewport pixels
@@ -37,20 +39,20 @@ export const ContactSection = () => {
   return (
     <div
       ref={containerRef}
-      className="relative w-full min-h-screen bg-white overflow-hidden select-none"
+      className={`relative w-full min-h-screen ${isDark ? 'bg-black' : 'bg-white'} overflow-hidden select-none transition-colors duration-500`}
     >
       {/* Top: Huge Scroll-Driven Heading - reveals words one-by-one as it pushes leftwards, landing centered */}
       <div className="absolute top-12 left-0 right-0 w-full overflow-hidden whitespace-nowrap z-10 pointer-events-none py-2 flex justify-center">
-        <motion.h1 
+        <motion.h1
           style={{ x: textX, y: textY }}
-          className="font-sans text-neutral-900 text-5xl sm:text-7xl md:text-[100px] lg:text-[120px] font-normal uppercase tracking-tighter text-center"
+          className={`font-sans ${isDark ? 'text-white' : 'text-neutral-900'} text-5xl sm:text-7xl md:text-[100px] lg:text-[120px] font-normal uppercase tracking-tighter text-center transition-colors duration-500`}
         >
           Describe, Design, Deliver.
         </motion.h1>
       </div>
 
       {/* Bottom-Left Description text (Non-bold, sized to not overlap the satellite image) */}
-      <motion.div 
+      <motion.div
         style={{ x: textLeftX }}
         className="absolute left-6 md:left-16 lg:left-24 bottom-16 z-10 max-w-xl text-left pointer-events-auto"
       >
@@ -60,7 +62,7 @@ export const ContactSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2 }}
         >
-          <h2 className="font-sans text-neutral-600 text-base sm:text-lg md:text-[22px] font-normal leading-[1.35] tracking-tight max-w-[420px]">
+          <h2 className={`font-sans ${isDark ? 'text-neutral-400' : 'text-neutral-600'} text-base sm:text-lg md:text-[22px] font-normal leading-[1.35] tracking-tight max-w-[420px] transition-colors duration-500`}>
             Describe it. OneSolar designs it.
             <br />
             From rooftop sketch to bankable engineering
@@ -69,6 +71,7 @@ export const ContactSection = () => {
           </h2>
         </motion.div>
       </motion.div>
+
 
       <motion.div
         initial={{ opacity: 0, x: -180 }}

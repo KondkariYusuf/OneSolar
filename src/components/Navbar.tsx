@@ -1,125 +1,58 @@
-import { useState } from 'react';
-
-const NAV_LINKS = [
-  { name: 'About', href: '#spade-hero' },
-  { name: 'Services', href: '#services' },
-  { name: 'Journal', href: '#journal' },
-  { name: 'Contact', href: '#contact' },
-];
+import { Lightbulb, Download, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 export const Navbar = () => {
-  const isScrolledToLight = true;
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
 
   return (
-    <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex flex-row items-center justify-between px-6 md:px-12 py-5 transition-colors duration-300">
-        {/* Left: Brand Logo Image (Slightly larger size) */}
-        <a href="#" className="z-50 flex items-center transition-all duration-300">
-          <img
-            src={isScrolledToLight ? '/logoBlack.png' : '/logoOnesolar.png'}
-            alt="OneSolar Logo"
-            className="h-10 sm:h-12 md:h-14 w-auto object-contain transition-opacity duration-300"
-          />
+    <header className="fixed top-0 left-0 right-0 z-50 flex flex-row items-center justify-between px-6 md:px-12 py-5 transition-colors duration-300">
+      {/* Left: Brand Logo Image (logoBlack.png for light mode, logoOnesolar.png for dark mode) */}
+      <a href="#" className="z-50 flex items-center transition-all duration-300">
+        <img
+          src={isDark ? '/logoOnesolar.png' : '/logoBlack.png'}
+          alt="OneSolar Logo"
+          className="h-16 sm:h-20 md:h-24 w-auto object-contain transition-all duration-300"
+        />
+      </a>
+
+      {/* Right: Idea PDF Download Button & Theme Toggle Button */}
+      <div className="flex items-center gap-2 sm:gap-3 z-50 translate-y-[4px] sm:translate-y-[2px] md:translate-y-[3px]">
+        <a
+          href="/oneSolar_idea.pdf"
+          download="oneSolar_idea.pdf"
+          className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-medium text-xs sm:text-sm tracking-wide transition-all duration-300 flex items-center gap-2 cursor-pointer font-inter border shadow-xs hover:scale-[1.02] active:scale-[0.98] ${
+            isDark
+              ? 'bg-neutral-900/90 text-white hover:bg-neutral-800 border-neutral-800 shadow-neutral-950/50'
+              : 'bg-neutral-100/90 text-black hover:bg-neutral-200 border-neutral-200'
+          }`}
+          title="Download oneSolar idea PDF"
+        >
+          <Lightbulb className="w-4 h-4 text-amber-500 fill-amber-500/20" />
+          <span>Idea</span>
+          <Download className="w-3.5 h-3.5 opacity-60" />
         </a>
 
-        {/* Center: Navigation Links (Desktop) */}
-        <nav className="hidden md:flex items-center gap-12">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className={`text-sm tracking-wide transition-colors duration-300 font-inter ${
-                isScrolledToLight
-                  ? 'text-black/80 hover:text-black'
-                  : 'text-white/80 hover:text-white'
-              }`}
-            >
-              {link.name}
-            </a>
-          ))}
-        </nav>
-
-        {/* Right: CTA Button (Desktop) */}
-        <div className="hidden md:block">
-          <button
-            className={`px-8 py-3.5 rounded-full font-medium text-sm tracking-wide transition-all duration-300 button-glow cursor-pointer font-inter ${
-              isScrolledToLight
-                ? 'bg-black text-white hover:bg-black/90'
-                : 'bg-white text-black hover:bg-white/90'
-            }`}
-          >
-            Book a consultation
-          </button>
-        </div>
-
-        {/* Right: Animated Hamburger Icon (Mobile) */}
+        {/* Theme Toggle Button */}
         <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden z-50 relative w-6 h-5 flex flex-col justify-between items-center focus:outline-none cursor-pointer"
-          aria-label="Toggle menu"
-        >
-          <span
-            className={`w-full h-[2px] rounded transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              isScrolledToLight ? 'bg-black' : 'bg-white'
-            } ${isMenuOpen ? 'rotate-45 translate-y-[9px]' : ''}`}
-          />
-          <span
-            className={`w-full h-[2px] rounded transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              isScrolledToLight ? 'bg-black' : 'bg-white'
-            } ${isMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'}`}
-          />
-          <span
-            className={`w-full h-[2px] rounded transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              isScrolledToLight ? 'bg-black' : 'bg-white'
-            } ${isMenuOpen ? '-rotate-45 -translate-y-[9px]' : ''}`}
-          />
-        </button>
-      </header>
-
-      {/* Mobile Menu Panel */}
-      <div
-        className={`fixed top-0 right-0 bottom-0 z-40 w-[85%] max-w-[340px] backdrop-blur-xl p-8 pt-28 flex flex-col justify-between transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-          isScrolledToLight
-            ? 'bg-white/95 border-l border-black/10 text-black'
-            : 'bg-[#0a0608]/95 border-l border-white/10 text-white'
-        } ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
-      >
-        <div className="flex flex-col gap-6">
-          {NAV_LINKS.map((link, index) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={() => setIsMenuOpen(false)}
-              style={{
-                transitionDelay: `${150 + index * 75}ms`,
-              }}
-              className={`text-xl tracking-wide font-inter transition-all duration-500 ${
-                isScrolledToLight ? 'text-black' : 'text-white'
-              } ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
-            >
-              {link.name}
-            </a>
-          ))}
-        </div>
-
-        <div
-          style={{ transitionDelay: '450ms' }}
-          className={`transition-all duration-500 ${
-            isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
+          onClick={toggleTheme}
+          className={`p-2 sm:p-2.5 rounded-full transition-all duration-300 flex items-center justify-center cursor-pointer border shadow-xs hover:scale-[1.05] active:scale-[0.95] ${
+            isDark
+              ? 'bg-neutral-900/90 text-amber-400 hover:bg-neutral-800 hover:text-amber-300 border-neutral-800'
+              : 'bg-neutral-100/90 text-neutral-700 hover:bg-neutral-200 hover:text-neutral-900 border-neutral-200'
           }`}
+          aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         >
-          <button
-            className={`w-full py-3.5 rounded-full font-medium text-sm tracking-wide transition-all duration-300 button-glow font-inter cursor-pointer ${
-              isScrolledToLight
-                ? 'bg-black text-white hover:bg-black/90'
-                : 'bg-white text-black hover:bg-white/90'
-            }`}
-          >
-            Book a consultation
-          </button>
-        </div>
+          {isDark ? (
+            <Sun className="w-4 h-4 transition-transform duration-300 rotate-0 hover:rotate-45" />
+          ) : (
+            <Moon className="w-4 h-4 transition-transform duration-300 -rotate-12 hover:rotate-0" />
+          )}
+        </button>
       </div>
-    </>
+    </header>
   );
 };
+
+export default Navbar;
+

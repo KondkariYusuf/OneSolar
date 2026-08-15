@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useScroll, useTransform } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
 import { Mac } from './ui/mac';
 import screenImg1 from '../assets/image1.png';
 import screenImg2 from '../assets/image22.png';
@@ -7,8 +8,9 @@ import screenImg3 from '../assets/image4.png';
 import screenImg4 from '../assets/image3.png';
 
 export const MacDemoSection: React.FC = () => {
+  const { isDark } = useTheme();
   const sectionRef = useRef<HTMLDivElement>(null);
-  
+
   // Track scroll position of the parent track relative to the sticky pin window
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -26,10 +28,11 @@ export const MacDemoSection: React.FC = () => {
   const opacity4 = useTransform(scrollYProgress, [0, 0.75, 0.95, 1], [0, 0, 1, 1]);
 
   return (
-    <section 
-      ref={sectionRef} 
-      className="relative w-full h-[400vh] bg-white select-none"
+    <section
+      ref={sectionRef}
+      className={`relative w-full h-[400vh] ${isDark ? 'bg-black' : 'bg-white'} select-none transition-colors duration-500`}
     >
+
       {/* Sticky full-screen wrapper to pin the iMac in place while the page scrolls */}
       <div className="sticky top-0 w-full h-screen flex flex-col justify-center items-center overflow-hidden px-6">
         {/* Mac Presentation Container */}
