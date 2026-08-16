@@ -30,13 +30,13 @@ export const MacDemoSection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className={`relative w-full h-[400vh] ${isDark ? 'bg-black' : 'bg-white'} select-none transition-colors duration-500`}
+      className={`relative w-full h-[220vh] md:h-[400vh] ${isDark ? 'bg-black' : 'bg-white'} select-none transition-colors duration-500`}
     >
 
       {/* Sticky full-screen wrapper to pin the iMac in place while the page scrolls */}
-      <div className="sticky top-0 w-full h-screen flex flex-col justify-center items-center overflow-hidden px-6">
+      <div className="sticky top-0 w-full h-screen flex flex-col justify-center items-center overflow-hidden px-2 sm:px-6">
         {/* Mac Presentation Container */}
-        <div className="w-full max-w-6xl flex justify-center items-center px-4">
+        <div className="w-full max-w-6xl flex justify-center items-center px-1 sm:px-4">
           <div className="w-full aspect-[6/5] max-w-5xl flex justify-center items-center text-neutral-100">
             <Mac
               src={screenImg1}

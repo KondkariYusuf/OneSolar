@@ -58,7 +58,7 @@ export const Hero: React.FC = () => {
       <img
         src={isDark ? '/heroDark.png' : heroImg}
         alt="Cosmic Wellness Journey Background"
-        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500"
+        className="absolute inset-0 w-full h-full object-cover object-[50%_72%] scale-115 sm:scale-100 sm:object-cover z-0 pointer-events-none transition-all duration-500"
         style={{
           maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 68%, rgba(0,0,0,0) 95%)',
           WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 68%, rgba(0,0,0,0) 95%)',
@@ -66,16 +66,16 @@ export const Hero: React.FC = () => {
       />
 
       {/* Overlay tagline */}
-      <div className="w-full max-w-7xl z-10 flex flex-col items-center text-center mt-36 px-4">
+      <div className="w-full max-w-7xl z-10 flex flex-col items-center text-center mt-32 sm:mt-36 px-3 sm:px-4">
         <motion.h1
           style={{ y, opacity }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className={`font-sans ${isDark ? 'text-white' : 'text-neutral-900'} text-[26px] xs:text-[34px] sm:text-5xl md:text-7xl lg:text-8xl xl:text-[110px] font-normal leading-[1.02] tracking-tight text-center select-none whitespace-nowrap min-h-[1.5em] flex items-center justify-center transition-colors duration-500`}
+          className={`font-sans ${isDark ? 'text-white' : 'text-neutral-900'} text-[21px] xs:text-[25px] sm:text-5xl md:text-7xl lg:text-8xl xl:text-[110px] font-medium sm:font-normal leading-[1.02] tracking-tight text-center select-none whitespace-nowrap min-h-[1.5em] flex items-center justify-center transition-colors duration-500`}
         >
           <span>{taglineText}</span>
-          <span className={`inline-block w-[4px] h-[0.85em] ${isDark ? 'bg-white' : 'bg-neutral-900'} align-middle ml-[4px] animate-blink transition-opacity duration-150 ${isTypewriterDone ? 'opacity-0' : 'opacity-100'}`} />
+          <span className={`inline-block w-[3px] sm:w-[4px] h-[0.85em] ${isDark ? 'bg-white' : 'bg-neutral-900'} align-middle ml-[3px] sm:ml-[4px] animate-blink transition-opacity duration-150 ${isTypewriterDone ? 'opacity-0' : 'opacity-100'}`} />
         </motion.h1>
 
         <motion.p
@@ -83,7 +83,7 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className={`mt-3 sm:mt-4 font-sans ${isDark ? 'text-neutral-400' : 'text-neutral-600'} text-[10px] xs:text-xs sm:text-base md:text-xl lg:text-2xl xl:text-3xl font-light leading-snug tracking-tight text-center select-none whitespace-nowrap transition-colors duration-500`}
+          className={`mt-2.5 sm:mt-4 font-sans ${isDark ? 'text-neutral-300' : 'text-neutral-600'} text-[11px] xs:text-[13px] sm:text-base md:text-xl lg:text-2xl xl:text-3xl font-normal sm:font-light leading-snug tracking-tight text-center select-none whitespace-nowrap transition-colors duration-500`}
         >
           An AI design agent built for solar installers, EPCs, and engineers.
         </motion.p>

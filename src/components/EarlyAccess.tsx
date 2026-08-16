@@ -16,18 +16,18 @@ export const EarlyAccess: React.FC = () => {
   };
 
   return (
-    <section className={`relative w-full h-screen ${isDark ? 'bg-black' : 'bg-white'} flex flex-col justify-between items-center pt-24 select-none transition-colors duration-500`}>
-      <div className="w-full max-w-2xl text-center flex flex-col items-center px-6">
+    <section className={`relative w-full min-h-screen ${isDark ? 'bg-black' : 'bg-white'} flex flex-col justify-between items-center pt-8 md:pt-24 select-none transition-colors duration-500`}>
+      <div className="w-full max-w-2xl text-center flex flex-col items-center justify-center px-4 sm:px-6 my-auto py-8 md:py-0">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className={`font-inter ${isDark ? 'text-white' : 'text-neutral-900'} text-3xl sm:text-5xl font-normal leading-[1.1] tracking-tight mb-6 transition-colors duration-500`}>
+          <h2 className={`font-inter ${isDark ? 'text-white' : 'text-neutral-900'} text-2xl xs:text-3xl sm:text-5xl font-normal leading-[1.1] tracking-tight mb-3 sm:mb-6 transition-colors duration-500`}>
             Secure early access.
           </h2>
-          <p className={`font-inter ${isDark ? 'text-neutral-400' : 'text-neutral-500'} text-sm sm:text-base font-normal max-w-md mb-10 leading-relaxed transition-colors duration-500`}>
+          <p className={`font-inter ${isDark ? 'text-neutral-400' : 'text-neutral-500'} text-xs xs:text-sm sm:text-base font-normal max-w-md mb-6 sm:mb-10 leading-relaxed transition-colors duration-500`}>
             Join the waitlist to build complete, construction-ready designs from simple conversation. Zero learning curve.
           </p>
         </motion.div>
@@ -55,7 +55,7 @@ export const EarlyAccess: React.FC = () => {
                     isDark
                       ? 'bg-neutral-900 border-neutral-800 text-white placeholder-neutral-500 focus:bg-neutral-950 focus:border-white'
                       : 'bg-neutral-50 border-neutral-200 text-neutral-900 placeholder-neutral-400 focus:border-neutral-900 focus:bg-white'
-                  } border rounded-full px-6 py-3.5 text-sm font-inter focus:outline-none transition-all`}
+                  } border rounded-full px-5 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm font-inter focus:outline-none transition-all`}
                 />
                 <button
                   type="submit"
@@ -63,10 +63,10 @@ export const EarlyAccess: React.FC = () => {
                     isDark
                       ? 'bg-white hover:bg-neutral-200 text-black'
                       : 'bg-black hover:bg-neutral-800 text-white'
-                  } transition-colors duration-300 rounded-full px-8 py-3.5 text-sm font-inter font-medium flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-[0.98]`}
+                  } transition-colors duration-300 rounded-full px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-inter font-medium flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-[0.98]`}
                 >
                   <span>Request Invite</span>
-                  <Send className={`w-4 h-4 ${isDark ? 'text-black' : 'text-white'}`} />
+                  <Send className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isDark ? 'text-black' : 'text-white'}`} />
                 </button>
               </motion.form>
             ) : (
@@ -95,19 +95,19 @@ export const EarlyAccess: React.FC = () => {
       </div>
 
       {/* Footer: Jet Black in light mode, Clean White with black text in dark mode */}
-      <footer className={`w-full ${isDark ? 'bg-white' : 'bg-black'} pt-14 pb-8 flex flex-col items-center justify-center overflow-hidden transition-colors duration-500`}>
+      <footer className={`w-full ${isDark ? 'bg-white' : 'bg-black'} pt-8 sm:pt-14 pb-6 sm:pb-8 flex flex-col items-center justify-center overflow-hidden transition-colors duration-500`}>
         {/* Huge Brand Text */}
-        <div className="w-full text-center px-4 overflow-hidden leading-none select-none mb-4 flex flex-col items-center">
+        <div className="w-full text-center px-4 overflow-hidden leading-none select-none mb-2 sm:mb-4 flex flex-col items-center">
           <h2 className={`font-inter font-normal ${isDark ? 'text-black' : 'text-white'} text-[15vw] leading-none tracking-tighter whitespace-nowrap transition-colors duration-500`}>
             OneSolar
           </h2>
-          <div className="w-full max-w-[450px] mx-auto flex justify-center mt-2 h-14">
+          <div className="w-full max-w-[300px] sm:max-w-[450px] mx-auto flex justify-center mt-2 h-10 sm:h-14">
             <AppleHelloEnglishEffect className="w-full h-full" />
           </div>
         </div>
 
         {/* Small spacing / copyright text below */}
-        <div className="mt-8 text-center">
+        <div className="mt-4 sm:mt-8 text-center">
         </div>
       </footer>
     </section>

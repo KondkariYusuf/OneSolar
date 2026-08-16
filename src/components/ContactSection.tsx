@@ -9,13 +9,17 @@ export const ContactSection = () => {
 
   // Track the window width dynamically to ensure offscreen elements translate relative to actual viewport pixels
   const [windowWidth, setWindowWidth] = useState(1400);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setWindowWidth(window.innerWidth);
-      const handleResize = () => setWindowWidth(window.innerWidth);
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
+      const updateDimensions = () => {
+        setWindowWidth(window.innerWidth);
+        setIsMobile(window.innerWidth < 768);
+      };
+      updateDimensions();
+      window.addEventListener('resize', updateDimensions);
+      return () => window.removeEventListener('resize', updateDimensions);
     }
   }, []);
 
@@ -39,30 +43,30 @@ export const ContactSection = () => {
   return (
     <div
       ref={containerRef}
-      className={`relative w-full min-h-screen ${isDark ? 'bg-black' : 'bg-white'} overflow-hidden select-none transition-colors duration-500`}
+      className={`relative w-full min-h-screen ${isDark ? 'bg-black' : 'bg-white'} overflow-hidden select-none transition-colors duration-500 flex flex-col justify-between items-center md:block pt-28 md:pt-0 pb-0 md:pb-0`}
     >
-      {/* Top: Huge Scroll-Driven Heading - reveals words one-by-one as it pushes leftwards, landing centered */}
-      <div className="absolute top-12 left-0 right-0 w-full overflow-hidden whitespace-nowrap z-10 pointer-events-none py-2 flex justify-center">
+      {/* Top: Huge Scroll-Driven Heading - sized to never cut off on narrow screens */}
+      <div className="relative md:absolute top-0 md:top-12 left-0 right-0 w-full overflow-hidden whitespace-nowrap z-10 pointer-events-none py-2 flex justify-center px-2">
         <motion.h1
-          style={{ x: textX, y: textY }}
-          className={`font-sans ${isDark ? 'text-white' : 'text-neutral-900'} text-5xl sm:text-7xl md:text-[100px] lg:text-[120px] font-normal uppercase tracking-tighter text-center transition-colors duration-500`}
+          style={{ x: textX, y: isMobile ? 0 : textY }}
+          className={`font-sans ${isDark ? 'text-white' : 'text-neutral-900'} text-[19px] xs:text-[23px] sm:text-6xl md:text-[100px] lg:text-[120px] font-medium md:font-normal uppercase tracking-tight md:tracking-tighter text-center transition-colors duration-500`}
         >
           Describe, Design, Deliver.
         </motion.h1>
       </div>
 
-      {/* Bottom-Left Description text (Non-bold, sized to not overlap the satellite image) */}
+      {/* Middle: Description text centered in the vertical space between header and satellite */}
       <motion.div
-        style={{ x: textLeftX }}
-        className="absolute left-6 md:left-16 lg:left-24 bottom-16 z-10 max-w-xl text-left pointer-events-auto"
+        style={{ x: isMobile ? 0 : textLeftX }}
+        className="relative md:absolute left-0 md:left-16 lg:left-24 bottom-auto md:bottom-16 z-10 max-w-xl text-center md:text-left pointer-events-auto px-6 md:px-0 my-auto md:my-0 py-4 md:py-0"
       >
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: isMobile ? 15 : 0, x: isMobile ? 0 : -50 }}
+          whileInView={{ opacity: 1, y: 0, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2 }}
         >
-          <h2 className={`font-sans ${isDark ? 'text-neutral-400' : 'text-neutral-600'} text-base sm:text-lg md:text-[22px] font-normal leading-[1.35] tracking-tight max-w-[420px] transition-colors duration-500`}>
+          <h2 className={`font-sans ${isDark ? 'text-neutral-200 md:text-neutral-400' : 'text-neutral-800 md:text-neutral-600'} text-sm xs:text-base sm:text-lg md:text-[22px] font-medium md:font-normal leading-relaxed tracking-tight max-w-[440px] mx-auto md:mx-0 transition-colors duration-500`}>
             Describe it. OneSolar designs it.
             <br />
             From rooftop sketch to bankable engineering
@@ -72,19 +76,19 @@ export const ContactSection = () => {
         </motion.div>
       </motion.div>
 
-
+      {/* Bottom: Satellite Image anchored towards bottom */}
       <motion.div
-        initial={{ opacity: 0, x: -180 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+        initial={{ opacity: 0, x: isMobile ? 0 : -180, y: isMobile ? 20 : 0 }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        style={{ x: imageRightX, y }}
-        className="absolute bottom-0 right-0 w-full max-w-4xl"
+        style={{ x: isMobile ? 0 : imageRightX, y: isMobile ? 0 : y }}
+        className="relative md:absolute bottom-0 right-0 w-full max-w-md md:max-w-4xl mt-auto md:mt-0 px-2 sm:px-4 md:px-0 flex justify-center md:block"
       >
         <img
           src={contactImg}
           alt="Wellness Showcase Graphic"
-          className="w-full h-auto object-contain block"
+          className="w-full max-h-[46vh] md:max-h-none object-contain block"
         />
       </motion.div>
     </div>
